@@ -8,6 +8,8 @@ import { copyToClipboard } from "~/utils"
 import vercel from "/assets/vercel.svg?raw"
 import openai from "/assets/openai.svg?raw"
 import md from "~/markdown-it"
+import UserAvatar from "./avatar/user.png"
+import SystemAvatar from "./avatar/system.png"
 
 interface Props {
   message: ChatMessage
@@ -25,6 +27,13 @@ export default (props: Props) => {
     system: "bg-gradient-to-r from-gray-300 via-gray-200 to-gray-300",
     user: "bg-gradient-to-r from-red-300 to-blue-700 ",
     assistant: "bg-gradient-to-r from-yellow-300 to-red-700 "
+  }
+
+  const roleAvatar = {
+    error: SystemAvatar,
+    system: SystemAvatar,
+    user: UserAvatar,
+    assistant: SystemAvatar
   }
 
   function copy() {
@@ -122,6 +131,10 @@ export default (props: Props) => {
         class={`shrink-0 w-7 h-7 mt-4 rounded-full op-80 flex items-center justify-center cursor-pointer ${
           roleClass[props.message.role]
         }`}
+        style={{
+          "background-image": `url(${roleAvatar[props.message.role]})`,
+          "background-size": "100% 100%"
+        }}
         onClick={lockMessage}
       >
         <Show when={props.message.special === "locked"}>
